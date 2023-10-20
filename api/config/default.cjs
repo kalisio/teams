@@ -2,6 +2,7 @@ var path = require('path')
 var fs = require('fs')
 var winston = require('winston')
 var containerized = require('containerized')()
+const express = require('@feathersjs/express')
 
 const serverPort = process.env.PORT || 8081
 // Required to know webpack port so that in dev we can build correct URLs
@@ -45,6 +46,13 @@ module.exports = {
   },
   */
   apiPath: API_PREFIX,
+  user: true,
+  distribution: {
+    services: (service) => ['api/users'],
+    middlewares: { after: express.errorHandler() },
+    key: 'teams',
+    healthcheckPath: API_PREFIX + '/distribution/'
+  },
   paginate: {
     default: 10,
     max: 50
@@ -53,6 +61,7 @@ module.exports = {
     secret: process.env.APP_SECRET || 'my secret',
     path: API_PREFIX + '/authentication',
     service: API_PREFIX + '/users',
+    // entityId: 'user',
     entity: 'user',
     authStrategies: [
       'jwt',

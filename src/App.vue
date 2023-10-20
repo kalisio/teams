@@ -21,7 +21,7 @@ import logger from 'loglevel'
 import { ref, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useQuasar } from 'quasar'
-import { Store, Events, i18n, utils as kdkCoreUtils } from '@kalisio/kdk/core.client'
+import { Store, Events, i18n, utils as kdkCoreUtils, api } from '@kalisio/kdk/core.client'
 
 // Data
 const $q = useQuasar()
@@ -107,6 +107,11 @@ onMounted(() => {
       }
     }
     showError(error)
+  })
+  api.on('login', async (data) => {
+    // redirect if the redirect_url parameter is present
+    const redirectUrl = Route.query.redirect_url
+    if (redirectUrl) await window.location.replace(`${redirectUrl}#/home?access_token=${data.accessToken}`)
   })
 })
 

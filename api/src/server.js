@@ -4,7 +4,7 @@ import _ from 'lodash'
 import https from 'https'
 import proxyMiddleware from 'http-proxy-middleware'
 import express from '@feathersjs/express'
-
+import distribution from '@kalisio/feathers-distributed'
 import middlewares from './middlewares.js'
 import services from './services.js'
 import hooks from './hooks.js'
@@ -18,6 +18,10 @@ export class Server {
       this.app.use('/', express.static(this.app.get('distPath')))
     }
     // In dev this is done by the webpack server
+
+    // Listen to distributed services
+    const distConfig = this.app.get('distribution')
+    if (distConfig) this.app.configure(distribution(distConfig))
 
     // Define HTTP proxies to your custom API backend. See /config/index.js -> proxyTable
     // https://github.com/chimurai/http-proxy-middleware

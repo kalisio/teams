@@ -27,7 +27,8 @@ export default {
         return true
       }, authenticate('jwt')),
       coreHooks.processObjectIDs,
-      coreHooks.authorise],
+      // coreHooks.authorise
+    ],
     find: [fuzzySearch({ fields: ['name'] }), coreHooks.marshallCollationQuery],
     get: [],
     create: [],

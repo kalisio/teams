@@ -49,6 +49,7 @@ module.exports = {
   appName,
   pwaAppName,
   pwaShortName,
+  buildMode: process.env.BUILD_MODE === 'pwa' ? 'pwa' : 'spa',
   appLogo: 'teams-logo.png',  
   flavor: process.env.NODE_APP_INSTANCE || 'dev',
   version: require('../package.json').version,

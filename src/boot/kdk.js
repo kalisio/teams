@@ -9,7 +9,7 @@ import { utils, initializeApi, i18n, utils as kdkCoreUtils, Store, Layout, Event
 
 export default async ({ app }) => {
   // Initiate the client
-  const api = initializeApi()
+  const api = await initializeApi()
 
   // Setup app hooks
   api.hooks(appHooks)

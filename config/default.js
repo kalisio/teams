@@ -1,6 +1,7 @@
 // Helper declaration
+const APP_SLUG='teams'
 const API_PREFIX = '/api'
-const leftPane = {
+const LEFT_PANE = {
   content: [
     { component: 'account/KProfile', class: 'full-width' },
     { id: 'users', icon: 'las la-users', label: 'UsersActivity.LABEL', renderer: 'item', route: { name: 'users-activity' } },
@@ -13,14 +14,13 @@ const leftPane = {
 
 module.exports = {
   appName: 'Kalisio Teams',
+  appSlug: APP_SLUG,
   buildMode: process.env.BUILD_MODE === 'pwa' ? 'pwa' : 'spa',
-  appLogo: 'teams-logo.png',  
   flavor: process.env.NODE_APP_INSTANCE || 'dev',
   version: require('../package.json').version,
-  buildNumber: process.env.BUILD_NUMBER,
+  buildNumber: process.env.BUILD_NUMBER,  
   apiPath: API_PREFIX,
-  terms: 'teams-terms',
-  apiJwt: 'teams-jwt',
+  apiJwt: `${APP_SLUG}-jwt`,
   apiTimeout: 20000,
   transport: 'websocket', // Could be 'http' or 'websocket',
   appChangelog: 'https://kalisio.github.io/teams/about/changelog.html',
@@ -32,6 +32,7 @@ module.exports = {
   logs: {
     level: (process.env.NODE_ENV === 'development' ? 'debug' : 'info')
   },
+  terms: 'teams-terms',
   screens: {
     actions: [{ 
       id: 'terms-policies', 
@@ -41,6 +42,11 @@ module.exports = {
         url: 'teams-terms.md'
       }
     }],
+    login: {
+      actions: [
+        { id: 'keycloak-link', label: 'screen.LOGIN_WITH_KEYCLOAK', renderer: 'form-button', route: { url: '/oauth/keycloak' } }
+      ]
+    },
     logout: {
       actions: [
         { id: 'login-link', label: 'KLogoutScreen.LOG_IN_AGAIN_LABEL', route: { name: 'login' } }
@@ -49,7 +55,7 @@ module.exports = {
   },
   usersActivity: {
     panes: {
-      left: leftPane
+      left: LEFT_PANE
     },
     items: {
       actions: [
@@ -59,7 +65,7 @@ module.exports = {
   },
   organizationsActivity: {
     panes: {
-      left: leftPane
+      left: LEFT_PANE
     }
   },
   routes: require('../src/router/routes')

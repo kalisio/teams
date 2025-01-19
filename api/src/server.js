@@ -13,27 +13,13 @@ import channels from './channels.js'
 export class Server {
   constructor () {
     this.app = kdk()
-    
     // Listen to distributed services
     const distConfig = this.app.get('distribution')
     if (distConfig) this.app.configure(distribution(distConfig))
-
     // Serve pure static assets
     if (process.env.NODE_ENV === 'production') {
       this.app.use('/', express.static(this.app.get('distPath')))
     }
-    // In dev this is done by the webpack server
-
-    // Define HTTP proxies to your custom API backend. See /config/index.js -> proxyTable
-    // https://github.com/chimurai/http-proxy-middleware
-    const proxyTable = this.app.get('proxyTable')
-    Object.keys(proxyTable).forEach(context => {
-      let options = proxyTable[context]
-      if (typeof options === 'string') {
-        options = { target: options }
-      }
-      this.app.use(proxyMiddleware(context, options))
-    })
   }
 
   async run () {
@@ -57,56 +43,36 @@ export class Server {
     app.configure(channels)
     // Configure middlewares - always has to be last
     app.configure(middlewares)
-    // Check for inactive organisations
-    // Need to do this after all hooks have been initialized
-    // TODO await checkInactiveOrganisations(app)
-
-    // Last lauch server
-    const httpsConfig = app.get('https')
-    let expressServer
-    if (httpsConfig) {
-      const port = httpsConfig.port
-      const server = https.createServer({
-        key: fs.readFileSync(httpsConfig.key),
-        cert: fs.readFileSync(httpsConfig.cert)
-      }, app)
-      app.logger.info('Configuring HTTPS server at port ' + port.toString())
-      expressServer = await server.listen(port)
-    } else {
-      const port = app.get('port')
-      app.logger.info('Configuring HTTP server at port ' + port.toString())
-      expressServer = await app.listen(port)
-    }
+    /// Last launch server
+    const port = app.get('port')
+    app.logger.info('Configuring HTTP server at port ' + port.toString())
+    const expressServer = await app.listen(port)
+    expressServer.on('close', () => finalize(app))
     return expressServer
   }
 }
 
 export function createServer () {
   const server = new Server()
-
   const config = server.app.get('logs')
   const logPath = _.get(config, 'DailyRotateFile.dirname')
   if (logPath) {
     // This will ensure the log directory does exist
     fs.ensureDirSync(logPath)
   }
-
   process.on('unhandledRejection', (reason, p) =>
     server.app.logger.error('Unhandled Rejection at: Promise ', reason)
   )
-
   process.on('SIGINT', async () => {
     server.app.logger.info('Received SIGINT signal running teardown')
     await server.app.teardown()
     process.exit(0)
   })
-
   process.on('SIGTERM', async () => {
     server.app.logger.info('Received SIGTERM signal running teardown')
     await server.app.teardown()
     process.exit(0)
   })
-
   return server
 }
 

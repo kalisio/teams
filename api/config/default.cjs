@@ -4,9 +4,9 @@ var winston = require('winston')
 const express = require('@feathersjs/express')
 var containerized = require('containerized')()
 
-const serverPort = process.env.PORT || 8081
+const SERVER_PORT = process.env.PORT || 8081
 // Required to know webpack port so that in dev we can build correct URLs
-const clientPort = process.env.CLIENT_PORT || 8080
+const CLIENT_PORT = process.env.CLIENT_PORT || 8080
 const API_PREFIX = '/api'
 
 let host, domain
@@ -18,16 +18,14 @@ if (process.env.SUBDOMAIN) {
   host = 'localhost'
   domain = 'http://' + host
   if (process.env.NODE_ENV === 'development') {
-    domain += ':' + clientPort
+    domain += ':' + CLIENT_PORT
   } else {
-    domain += ':' + serverPort
+    domain += ':' + SERVER_PORT
   }
 }
 
 // Keycloak base url
 const keycloakBaseUrl = `${process.env.KEYCLOAK_URL}/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/`
-
-console.log(keycloakBaseUrl)
 
 module.exports = {
   // Proxy your API if using any.
@@ -36,11 +34,11 @@ module.exports = {
   proxyTable: {},
   domain,
   host,
-  port: serverPort,
+  port: SERVER_PORT,
   distPath: fs.existsSync(path.join(__dirname, '../../dist/pwa')) ? path.join(__dirname, '../../dist/pwa') : path.join(__dirname, '../../dist/spa'),
   apiPath: API_PREFIX,
   paginate: {
-    default: 10,
+    default: 12,
     max: 50
   },
   distribution: {
@@ -149,5 +147,34 @@ module.exports = {
   db: {
     adapter: 'mongodb',
     url: process.env.DB_URL || (containerized ? 'mongodb://mongodb:27017/teams' : 'mongodb://127.0.0.1:27017/teams')
+  },
+  storage: {
+    s3Client: {
+      credentials: {
+        accessKeyId: process.env.S3_ACCESS_KEY || process.env.S3_ACCESS_KEY_ID,
+        secretAccessKey: process.env.S3_SECRET_ACCESS_KEY
+      },
+      endpoint: process.env.S3_ENDPOINT,
+      region: process.env.S3_REGION,
+      signatureVersion: 'v4'
+    },
+    bucket: process.env.S3_BUCKET,
+    //prefix: 'events'
+  },
+  'import-export': {
+    s3Options: {
+      s3Client: {
+        credentials: {
+          accessKeyId: process.env.S3_ACCESS_KEY || process.env.S3_ACCESS_KEY_ID,
+          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY
+        },
+        endpoint: process.env.S3_ENDPOINT,
+        region: process.env.S3_REGION,
+        signatureVersion: 'v4'
+      },
+      bucket: process.env.S3_BUCKET,
+      prefix: 'tmp'
+    },
+    workingDir: process.env.TMP_DIR || 'tmp'
   }
 }

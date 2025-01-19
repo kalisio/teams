@@ -1,20 +1,21 @@
 import path, { dirname } from 'path'
-import makeDebug from 'debug'
-import { createStorageService, removeStorageService } from '@kalisio/kdk/core.api.js'
 import { fileURLToPath } from 'url'
+import makeDebug from 'debug'
+//import { createStorageService, removeStorageService } from '@kalisio/kdk/core.api.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
-const servicesPath = path.join(__dirname, '..', '..', 'services')
-const modelsPath = path.join(__dirname, '..', '..', 'models')
-
 const debug = makeDebug('teams:organisations:service')
 
 export default async function (name, app, options) {
-  const config = app.get('storage')
-  debug('S3 team storage client created with config ', config)
+  debug('organisations created')
+  //const config = app.get('storage')
+  //console.log(config)
+  //debug('S3 team storage client created with config ', config)
 
-  return {
+  return 
+}
+/*
     // Hooks that can be added to customize organization services
     organisationServicesHooks: [],
 
@@ -69,7 +70,7 @@ export default async function (name, app, options) {
     },
 
     async configureOrganisations () {
-      // Reinstanciated services for all organisations
+      // Reinstanciate services for all organisations
       const organisations = await this.find({ paginate: false })
       organisations.forEach(organisation => {
         debug('Configuring organisation ' + organisation.name)
@@ -79,4 +80,4 @@ export default async function (name, app, options) {
       })
     }
   }
-}
+}*/

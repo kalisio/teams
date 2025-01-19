@@ -39,15 +39,7 @@ export default async ({ app }) => {
   app.component('KStamp', await kdkCoreUtils.loadComponent('KStamp'))
   app.component('KModal', await kdkCoreUtils.loadComponent('KModal'))
   app.component('KDialog', await kdkCoreUtils.loadComponent('KDialog'))  
-  app.component('KDate', await kdkCoreUtils.loadComponent('time/KDate'))
-  app.component('KTime', await kdkCoreUtils.loadComponent('time/KTime'))
-  app.component('KDateTime', await kdkCoreUtils.loadComponent('time/KDateTime'))
-  app.component('KDateTimeRange', await kdkCoreUtils.loadComponent('time/KDateTimeRange'))
   app.component('KForm', await kdkCoreUtils.loadComponent('form/KForm'))
-  app.component('KChart', await kdkCoreUtils.loadComponent('chart/KChart'))
-  app.component('KPage', await kdkCoreUtils.loadComponent('layout/KPage'))
-  app.component('KShape', await kdkCoreUtils.loadComponent('media/KShape'))
-  app.component('KColorScale', await kdkCoreUtils.loadComponent('media/KColorScale'))
   app.component('KTour', await kdkCoreUtils.loadComponent('app/KTour'))
   app.component('KScrollArea', await kdkCoreUtils.loadComponent('KScrollArea'))
   app.component('KGrid', await kdkCoreUtils.loadComponent('collection/KGrid'))
@@ -68,5 +60,5 @@ export default async ({ app }) => {
   })
 
   // For debug purpose
-  logger.debug(`[KDK] is now ready: ${JSON.stringify(Store.get('kdk'), null, 4)}`)
+  logger.debug('[KDK] is now ready:', Store.get('kdk'))
 }

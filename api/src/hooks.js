@@ -1,17 +1,16 @@
 // Application hooks that run for every service
-import fuzzySearch from 'feathers-mongodb-fuzzy-search'
 import commonHooks from 'feathers-hooks-common'
-import { permissions as corePermissions, hooks as coreHooks } from '@kalisio/kdk/core.api.js'
+import { permissions as kdkCorePermissions, hooks as kdkCoreHooks } from '@kalisio/kdk/core.api.js'
 import * as permissions from '../../common/permissions.mjs'
 import authentication from '@feathersjs/authentication'
 const { authenticate } = authentication.hooks
 
-corePermissions.defineAbilities.registerHook(corePermissions.defineUserAbilities)
-corePermissions.defineAbilities.registerHook(permissions.defineUserAbilities)
+kdkCorePermissions.defineAbilities.registerHook(kdkCorePermissions.defineUserAbilities)
+kdkCorePermissions.defineAbilities.registerHook(permissions.defineUserAbilities)
 
 export default {
   before: {
-    all: [coreHooks.log,
+    all: [kdkCoreHooks.log,
       // We skip authentication in some cases
       commonHooks.when(hook => {
         // First built-in Feathers services like authentication
@@ -23,10 +22,10 @@ export default {
         // If not exception perform authentication
         return true
       }, authenticate('jwt')),
-      coreHooks.processObjectIDs,
-      coreHooks.authorise
+      kdkCoreHooks.processObjectIDs,
+      kdkCoreHooks.authorise
     ],
-    find: [fuzzySearch({ fields: ['name'] }), coreHooks.marshallCollationQuery],
+    find: [kdkCoreHooks.marshallCollationQuery],
     get: [],
     create: [],
     // We only use pacth in editors to avoid dumping "hidden" (ie internal) properties
@@ -36,7 +35,7 @@ export default {
   },
 
   after: {
-    all: [coreHooks.log],
+    all: [kdkCoreHooks.log],
     find: [],
     get: [],
     create: [],
@@ -46,7 +45,7 @@ export default {
   },
 
   error: {
-    all: [coreHooks.log],
+    all: [kdkCoreHooks.log],
     find: [],
     get: [],
     create: [],

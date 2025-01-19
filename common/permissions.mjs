@@ -4,10 +4,6 @@ export const Roles = {
   superadmin: 0
 }
 
-export const RoleNames = [
-  'superadmin'
-]
-
 // Hook to manage app permissions
 export function defineUserAbilities (subject, can, cannot, app) {
   if (subject && subject._id) {

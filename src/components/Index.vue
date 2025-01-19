@@ -1,7 +1,6 @@
 <template>
   <div>
-    <KTour v-if="isInitialized"/>
-    <router-view></router-view>
+    <router-view />
   </div>
 </template>
 

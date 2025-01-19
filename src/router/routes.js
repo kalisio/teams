@@ -6,30 +6,27 @@ module.exports = [{
   component: 'Index',
   meta: { unauthenticated: true },
   children: {
-    login: 'screen/KLoginScreen',
+    login: 'Login',
     logout: {
       component: 'screen/KLogoutScreen',
       meta: { authenticated: true }
     },
-    home: {
-      // The name of the route has to be set the default child
-      name: '',
+    home: {  
       component: 'app/KHome',
       meta: { authenticated: true, unauthenticated: false },
       children: {
         'default-home-view': {
-          // Because this child is the default one path is empty and name is the one of the parent route
           path: '',
           name: 'home',
-          redirect: { name: 'home-activity' },
-          tour: {
-            home: tours.home,
-            'side-nav': tours['side-nav']
-          },
+          redirect: { name: 'organisations-activity' }
         },
-        home: {
-          name: 'home-activity',
-          component: 'HomeActivity'
+        organisations: {
+          name: 'organisations-activity',
+          component: 'organisationsActivity'
+        },
+        users: {
+          name: 'users-activity',
+          component: 'UsersActivity'
         }
       }
     }

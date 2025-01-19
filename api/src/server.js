@@ -13,15 +13,16 @@ import channels from './channels.js'
 export class Server {
   constructor () {
     this.app = kdk()
+    
+    // Listen to distributed services
+    const distConfig = this.app.get('distribution')
+    if (distConfig) this.app.configure(distribution(distConfig))
+
     // Serve pure static assets
     if (process.env.NODE_ENV === 'production') {
       this.app.use('/', express.static(this.app.get('distPath')))
     }
     // In dev this is done by the webpack server
-
-    // Listen to distributed services
-    const distConfig = this.app.get('distribution')
-    if (distConfig) this.app.configure(distribution(distConfig))
 
     // Define HTTP proxies to your custom API backend. See /config/index.js -> proxyTable
     // https://github.com/chimurai/http-proxy-middleware
@@ -43,10 +44,22 @@ export class Server {
     await app.configure(services)
     // Register hooks
     app.hooks(hooks)
+    app.hooks({
+      setup: [],
+      teardown: [
+        async () => {
+          await app.db.disconnect()
+          app.logger.info('Server has been shut down')
+        }
+      ]
+    })
     // Set up real-time event channels
     app.configure(channels)
     // Configure middlewares - always has to be last
     app.configure(middlewares)
+    // Check for inactive organisations
+    // Need to do this after all hooks have been initialized
+    // TODO await checkInactiveOrganisations(app)
 
     // Last lauch server
     const httpsConfig = app.get('https')
@@ -82,10 +95,23 @@ export function createServer () {
     server.app.logger.error('Unhandled Rejection at: Promise ', reason)
   )
 
+  process.on('SIGINT', async () => {
+    server.app.logger.info('Received SIGINT signal running teardown')
+    await server.app.teardown()
+    process.exit(0)
+  })
+
+  process.on('SIGTERM', async () => {
+    server.app.logger.info('Received SIGTERM signal running teardown')
+    await server.app.teardown()
+    process.exit(0)
+  })
+
   return server
 }
 
 export async function runServer (server) {
-  await server.run()
-  server.app.logger.info('Server started listening')
+  const expressServer = await server.run()
+  server.app.logger.info(`Server with pid ${process.pid} started listening`)
+  return expressServer
 }

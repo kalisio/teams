@@ -1,0 +1,36 @@
+meta {
+  name: create user
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8084/api/keycloak-events
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "kcVersion": "22.0.5",
+    "dateTime": "2024-04-27T16:45:49.308Z",
+    "time": 1714236349308,
+    "realmId": "2b1c9854-ba47-4770-93d0-a00f6ef804e5",
+    "realmName": "Kalisio",
+    "eventClass": "AdminEvent",
+    "operationType": "CREATE",
+    "resourceType": "USER",
+    "resourcePath": "users/b3692458-57e8-4593-b36b-077d34ee76a4",
+    "error": null,
+    "representation": {
+      "username": "petitponey2",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "",
+      "lastName": "",
+      "email": "petitponey2@gmail.com",
+      "requiredActions": [],
+      "groups": []
+    }
+  }
+}

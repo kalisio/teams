@@ -1,33 +1,33 @@
 var path = require('path')
 var fs = require('fs')
 var winston = require('winston')
-var containerized = require('containerized')()
 const express = require('@feathersjs/express')
+var containerized = require('containerized')()
 
 const serverPort = process.env.PORT || 8081
 // Required to know webpack port so that in dev we can build correct URLs
 const clientPort = process.env.CLIENT_PORT || 8080
 const API_PREFIX = '/api'
-let domain
-// If we build a specific staging instance
-if (process.env.NODE_APP_INSTANCE === 'dev') {
-  domain = 'https://teams.dev.kalisio.xyz'
-} else if (process.env.NODE_APP_INSTANCE === 'test') {
-  domain = 'https://teams.test.kalisio.xyz'
-} else if (process.env.NODE_APP_INSTANCE === 'prod') {
-  domain = 'https://teams.planet.kalisio.xyz'
+
+let host, domain
+if (process.env.SUBDOMAIN) {
+  host = 'teams.' + process.env.SUBDOMAIN
+  domain = 'https://' + host
 } else {
   // Otherwise we are on a developer machine
+  host = 'localhost'
+  domain = 'http://' + host
   if (process.env.NODE_ENV === 'development') {
-    domain = 'http://localhost:' + clientPort
+    domain += ':' + clientPort
   } else {
-    domain = 'http://localhost:' + serverPort
+    domain += ':' + serverPort
   }
 }
-// Override defaults if env provided
-if (process.env.SUBDOMAIN) {
-  domain = 'https://teams.' + process.env.SUBDOMAIN
-}
+
+// Keycloak base url
+const keycloakBaseUrl = `${process.env.KEYCLOAK_URL}/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/`
+
+console.log(keycloakBaseUrl)
 
 module.exports = {
   // Proxy your API if using any.
@@ -35,30 +35,29 @@ module.exports = {
   // https://github.com/chimurai/http-proxy-middleware
   proxyTable: {},
   domain,
-  host: process.env.HOSTNAME || 'localhost',
+  host,
   port: serverPort,
   distPath: fs.existsSync(path.join(__dirname, '../../dist/pwa')) ? path.join(__dirname, '../../dist/pwa') : path.join(__dirname, '../../dist/spa'),
-  /* To enable HTTPS
-  https: {
-    key: path.join(__dirname, 'server.key'),
-    cert: path.join(__dirname, 'server.crt'),
-    port: process.env.HTTPS_PORT || 8084
-  },
-  */
   apiPath: API_PREFIX,
-  user: true,
-  distribution: {
-    services: (service) => ['api/users'],
-    middlewares: { after: express.errorHandler() },
-    key: 'teams',
-    healthcheckPath: API_PREFIX + '/distribution/'
-  },
   paginate: {
     default: 10,
     max: 50
   },
+  distribution: {
+    services: (service) => service.path.includes('organizations') || service.path.includes('groups'),
+    remoteServices: (service) => false,
+    middlewares: { after: express.errorHandler() },
+    // When called internally from remote service do not authenticate,
+    // this assumes a gateway scenario where authentication is performed externally
+    authentication: false,
+    key: 'teams',
+    healthcheckPath: API_PREFIX + '/distribution/',
+    distributedMethods: ['find', 'get', 'create', 'update', 'patch', 'remove'],
+    distributedEvents: ['created', 'updated', 'patched', 'removed']
+  },
   authentication: {
-    secret: process.env.APP_SECRET || 'my secret',
+    secret: process.env.APP_SECRET,
+    appId: process.env.APP_ID,
     path: API_PREFIX + '/authentication',
     service: API_PREFIX + '/users',
     // entityId: 'user',
@@ -67,6 +66,7 @@ module.exports = {
       'jwt',
       'local'
     ],
+    renewJwt: false,
     local: {
       usernameField: 'email',
       passwordField: 'password'
@@ -79,6 +79,22 @@ module.exports = {
       issuer: 'kalisio', // The issuing server, application or resource
       algorithm: 'HS256', // See https://github.com/auth0/node-jsonwebtoken#jwtsignpayload-secretorprivatekey-options-callback
       expiresIn: '1d'
+    },
+    oauth: {
+      redirect: domain + '/',
+      defaults: {
+        origin: domain
+      },
+      keycloak: {
+        key: process.env.KEYCLOAK_CLIENT_ID,
+        secret: process.env.KEYCLOAK_SECRET,
+        oauth: 2,
+        scope: ['openid'],
+        authorize_url: keycloakBaseUrl + 'auth',
+        access_url: keycloakBaseUrl + 'token',
+        profile_url: keycloakBaseUrl + 'userinfo',
+        nonce: true
+      }
     },
     passwordPolicy: {
       minLength: 8,

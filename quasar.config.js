@@ -22,6 +22,17 @@ const clientConfig = require('config')
 // Write JSON config
 fs.writeFileSync(path.join('config', 'client-config.json'), JSON.stringify(clientConfig))
 
+// Set pwa name
+let pwaName = clientConfig.appName
+// If we build a specific staging instance
+if (!process.env.NODE_APP_INSTANCE) {
+  pwaName += ' (local)'
+} else if (process.env.NODE_APP_INSTANCE === 'dev') {
+  pwaName += ' (dev)'
+} else if (process.env.NODE_APP_INSTANCE === 'test') {
+  pwaName += ' (test)'
+}
+
 module.exports = configure(function (ctx) {
   return {
     // https://v2.quasar.dev/quasar-cli-webpack/supporting-ts
@@ -234,8 +245,8 @@ module.exports = configure(function (ctx) {
       },
       
       manifest: {
-        name: clientConfig.pwaAppName,
-        short_name: clientConfig.pwaShortName,
+        name: pwaName,
+        short_name: pwaName,
         description: `Kalisio Teams Application`,
         display: 'standalone',
         start_url: './',

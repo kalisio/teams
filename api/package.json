@@ -57,6 +57,7 @@
     "@feathersjs/express": "^5.0.8",
     "@feathersjs/feathers": "^5.0.8",
     "@kalisio/feathers-distributed": "^2.2.2",
+    "@kalisio/feathers-keycloak-listener": "https://github.com/kalisio/feathers-keycloak-listener",
     "containerized": "^1.0.2",
     "feathers-hooks-common": "^5.0.6",
     "feathers-mongodb-fuzzy-search": "^2.0.1",

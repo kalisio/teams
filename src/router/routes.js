@@ -24,11 +24,11 @@ module.exports = [{
         },
         organisations: {
           name: 'organisations-activity',
-          component: 'organisationsActivity'
+          component: 'organisations/OrganisationsActivity'
         },
         users: {
           name: 'users-activity',
-          component: 'UsersActivity'
+          component: 'users/UsersActivity'
         }
       }
     }

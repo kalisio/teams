@@ -5,7 +5,7 @@ const LEFT_PANE = {
   content: [
     { component: 'account/KProfile', class: 'full-width' },
     { id: 'users', icon: 'las la-users', label: 'UsersActivity.LABEL', renderer: 'item', route: { name: 'users-activity' } },
-    { id: 'organizations', icon: 'las la-sitemap', label: 'OrganizationsActivity.LABEL', renderer: 'item', route: { name: 'organizations-activity' } },
+    { id: 'organisations', icon: 'las la-sitemap', label: 'OrganisationsActivity.LABEL', renderer: 'item', route: { name: 'organizations-activity' } },
     { id: 'logout', icon: 'las la-sign-out-alt', label: 'LOGOUT', renderer: 'item', route: { name: 'logout' } }
   ],
   opener: true,
@@ -53,6 +53,11 @@ module.exports = {
       ]
     }
   },
+  organisationsActivity: {
+    panes: {
+      left: LEFT_PANE
+    }
+  },
   usersActivity: {
     panes: {
       left: LEFT_PANE
@@ -61,11 +66,6 @@ module.exports = {
       actions: [
         { id: 'view-user', icon: 'las la-eyes' }
       ]
-    }
-  },
-  organizationsActivity: {
-    panes: {
-      left: LEFT_PANE
     }
   },
   routes: require('../src/router/routes')

@@ -2,12 +2,15 @@
   "MAIN_MENU": "Menu principal",
   "LOGOUT": "Se déconnecter",
   "screen": {
-    "LOGIN_WITH_KEYCLOAK": "Se connecter avec Keycloak ?",
+    "LOGIN_WITH_KEYCLOAK": "Se connecter",
     "ABOUT_KALISIO": "A propos",
     "CONTACT": "Contact",
     "TERMS_AND_POLICIES": "Conditions générales"
   },
-  "HomeActivity": {
-    "LABEL": "Home"
+  "OrganisationsActivity": {
+    "LABEL": "Organisations"
+  },
+  "UsersActivity": {
+    "LABEL": "Utilisateurs"
   }
 }

@@ -54,11 +54,6 @@ export default async ({ app }) => {
   // Add global guard
   beforeGuard.registerGuard(authenticationGuard)
 
-  // Subscribe to webpush notifications
-  api.on('authenticated', (data) => {
-    utils.subscribeToPushNotifications()
-  })
-
   // For debug purpose
   logger.debug('[KDK] is now ready:', Store.get('kdk'))
 }

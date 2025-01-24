@@ -1,12 +1,5 @@
 <template>
-  <KActivity
-    :ref="activityRefCreated"
-    name="users"
-    padding
-  >
-    <!--
-      Templates collection
-    -->
+  <KActivity name="users">
     <KGrid
       ref="usersList"
       service="users"
@@ -20,10 +13,6 @@
         </div>
       </template>
     </KGrid>
-    <!--
-      Router view to enable routing to modals
-    -->
-    <router-view service="users"></router-view>
   </KActivity>
 </template>
 
@@ -37,17 +26,12 @@ const sorter = Store.get('sorter')
 const filterQuery  = {}
 const renderer = ref(null)
 
-// Functions
-function activityRefCreated (reference) {
-  if (reference) {
-    renderer.value =  _.merge({
-    component: 'collection/KItem',
-    options: {
-      nameField: 'profile.name',
-      descriptionField: 'profile.description'
-    },
-    class: 'col-12'
-    }, _.get(reference, 'options.items'))
-  }
+// Data
+const sorter = Store.get('sorter')
+const filterQuery  = {}
+const renderer = {
+  component: 'collection/KCard',
+  actions: _.get(config, 'usersActivity.items.actions', [])
 }
 </script>
+

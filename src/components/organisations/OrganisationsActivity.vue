@@ -1,10 +1,5 @@
 <template>
-  <KActivity
-    name="organisations"
-  >
-    <!--
-      Templates collection
-    -->
+  <KActivity name="organisations">
     <KGrid
       service="organisations"
       :renderer="renderer"

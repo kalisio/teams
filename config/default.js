@@ -1,16 +1,18 @@
 // Helper declaration
 const APP_SLUG='teams'
 const API_PREFIX = '/api'
-const LEFT_PANE = {
+const LEFT_PANE = { content: [{ component: 'LeftPane' }] }
+
+/*const LEFT_PANE = {
   content: [
     { component: 'account/KProfile', class: 'full-width' },
-    { id: 'users', icon: 'las la-users', label: 'UsersActivity.LABEL', renderer: 'item', route: { name: 'users-activity' } },
     { id: 'organisations', icon: 'las la-sitemap', label: 'OrganisationsActivity.LABEL', renderer: 'item', route: { name: 'organizations-activity' } },
+    { id: 'users', icon: 'las la-users', label: 'UsersActivity.LABEL', renderer: 'item', route: { name: 'users-activity' } },
     { id: 'logout', icon: 'las la-sign-out-alt', label: 'LOGOUT', renderer: 'item', route: { name: 'logout' } }
   ],
   opener: true,
   visible: false
-}
+}*/
 
 module.exports = {
   appName: 'Kalisio Teams',
@@ -52,6 +54,17 @@ module.exports = {
         { id: 'login-link', label: 'KLogoutScreen.LOG_IN_AGAIN_LABEL', route: { name: 'login' } }
       ]
     }
+  },
+  layout: {
+    page: { visible: true },
+    fab: { visible: true },
+    panes: {
+      left: { opener: true },
+      top: { visible: true }
+    }
+  },
+  context: {
+    service: 'events'
   },
   organisationsActivity: {
     panes: {

@@ -6,11 +6,13 @@
 
 <script setup>
 import { onMounted } from 'vue'
-import { composables } from '@kalisio/kdk/core.client'
+import { composables as kdkCoreComposables } from '@kalisio/kdk/core.client'
 
 // Data
-const { isInitialized } = composables.useSession()
-const { installPwa } = composables.usePwa()
+const { installPwa } = kdkCoreComposables.usePwa()
+
+// Immediate
+kdkCoreComposables.useSession()
 
 // Hooks
 onMounted(() => {

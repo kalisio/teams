@@ -7,10 +7,8 @@
     "CONTACT": "Contact",
     "TERMS_AND_POLICIES": "Terms and Policies"
   },
-  "OrganisationsActivity": {
-    "LABEL": "Organisations"
-  },
-  "UsersActivity": {
-    "LABEL": "Users"
+  "LeftPane": {
+    "ORGANISATIONS": "Organisations",
+    "USERS": "Users"
   }
 }

@@ -13,7 +13,7 @@ module.exports = [{
       component: 'screen/KLogoutScreen',
       meta: { authenticated: true }
     },
-    home: {  
+    home: {
       component: 'app/KHome',
       meta: { authenticated: true, unauthenticated: false },
       children: {

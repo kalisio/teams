@@ -1,6 +1,7 @@
 <template>
   <KActivity name="organisations">
     <KGrid
+      id="organisations-grid"
       service="organisations"
       :renderer="renderer"
       :base-query="sorter.query"

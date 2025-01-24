@@ -38,11 +38,12 @@ export default async ({ app }) => {
   app.component('KPanel', await kdkCoreUtils.loadComponent('KPanel'))
   app.component('KStamp', await kdkCoreUtils.loadComponent('KStamp'))
   app.component('KModal', await kdkCoreUtils.loadComponent('KModal'))
-  app.component('KDialog', await kdkCoreUtils.loadComponent('KDialog'))  
+  app.component('KDialog', await kdkCoreUtils.loadComponent('KDialog'))
   app.component('KForm', await kdkCoreUtils.loadComponent('form/KForm'))
   app.component('KTour', await kdkCoreUtils.loadComponent('app/KTour'))
   app.component('KScrollArea', await kdkCoreUtils.loadComponent('KScrollArea'))
   app.component('KGrid', await kdkCoreUtils.loadComponent('collection/KGrid'))
+  app.component('KProfile', await kdkCoreUtils.loadComponent('account/KProfile'))
   app.component('KActivity', await kdkCoreUtils.loadComponent('KActivity'))
 
   // Register global properties

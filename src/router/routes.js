@@ -9,8 +9,9 @@ module.exports = [{
     login: {
       component: 'screen/KOAuthLoginScreen'
     },
-    logout: {
-      component: 'screen/KLogoutScreen',
+    'logout/:provider?': {
+      name: 'logout',
+      component: 'screen/KOAuthLogoutScreen',
       meta: { authenticated: true }
     },
     home: {

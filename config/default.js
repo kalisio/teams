@@ -8,7 +8,7 @@ const LEFT_PANE = { content: [{ component: 'LeftPane' }] }
     { component: 'account/KProfile', class: 'full-width' },
     { id: 'organisations', icon: 'las la-sitemap', label: 'OrganisationsActivity.LABEL', renderer: 'item', route: { name: 'organizations-activity' } },
     { id: 'users', icon: 'las la-users', label: 'UsersActivity.LABEL', renderer: 'item', route: { name: 'users-activity' } },
-    { id: 'logout', icon: 'las la-sign-out-alt', label: 'LOGOUT', renderer: 'item', route: { name: 'logout' } }
+    { id: 'logout', icon: 'las la-sign-out-alt', label: 'LOGOUT', renderer: 'item', route: { name: 'logout', params: { provider: 'keycloak' } } },
   ],
   opener: true,
   visible: false

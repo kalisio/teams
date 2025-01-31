@@ -79,7 +79,7 @@ module.exports = {
       expiresIn: '1d'
     },
     oauth: {
-      redirect: domain + '/',
+      redirect: domain,
       defaults: {
         origin: domain
       },
@@ -104,20 +104,7 @@ module.exports = {
       prohibited: fs.readFileSync(path.join(__dirname, '10k_most_common_passwords.txt')).toString().split('\n'),
       history: 5
     },
-    defaultUsers: [
-      {
-        email: 'kalisio@kalisio.xyz',
-        password: 'Pass;word1',
-        /*
-        device: {
-          registrationId: 'xxx',
-          number: '+xxx',
-          platform: 'ANDROID'
-        }
-        */
-        name: 'Kalisio'
-      }
-    ],
+    defaultUsers: [],
     // Required for OAuth2 to work correctly
     cookie: {
       enabled: true,

@@ -36,7 +36,7 @@
       icon="las la-sign-out-alt"
       label="LOGOUT"
       renderer="item"
-      :route="{ name: 'logout' }"
+      :route="{ name: 'logout', params: { provider: 'keycloak' } }"
       @triggered="emit('triggered')"
     />
   </div>

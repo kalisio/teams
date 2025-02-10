@@ -256,27 +256,27 @@ module.exports = configure(function (ctx) {
         orientation: 'portrait',
         icons: [
           {
-            src: 'icons/teams-icon-32x32.png',
+            src: 'teams-icon-32x32.png',
             sizes: '32x32',
             type: 'image/png'
           },
           {
-            src: 'icons/teams-icon-64x64.png',
+            src: 'teams-icon-64x64.png',
             sizes: '64x64',
             type: 'image/png'
           },
           {
-            src: 'icons/teams-icon-128x128.png',
+            src: 'teams-icon-128x128.png',
             sizes: '128x128',
             type: 'image/png'
           },
           {
-            src: 'icons/teams-icon-256x256.png',
+            src: 'teams-icon-256x256.png',
             sizes: '256x256',
             type: 'image/png'
           },
           {
-            src: 'icons/teams-icon-512x512.png',
+            src: 'teams-icon-512x512.png',
             sizes: '512x512',
             type: 'image/png'
           }

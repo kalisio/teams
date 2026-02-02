@@ -42,7 +42,8 @@ module.exports = {
     max: 50
   },
   distribution: {
-    services: (service) => service.path.includes('organizations') || service.path.includes('groups'),
+    services: (service) => service.path.includes('tags') ||
+      service.path.includes('groups'),
     remoteServices: (service) => false,
     middlewares: { after: express.errorHandler() },
     // When called internally from remote service do not authenticate,
@@ -133,6 +134,9 @@ module.exports = {
   db: {
     adapter: 'mongodb',
     url: process.env.DB_URL || (containerized ? 'mongodb://mongodb:27017/teams' : 'mongodb://127.0.0.1:27017/teams')
+  },
+  tags: {
+    defaultTags: []
   },
   storage: {
     s3Client: {

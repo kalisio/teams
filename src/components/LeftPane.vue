@@ -4,19 +4,19 @@
     <KProfile class="full-width" />
     <!-- Activities -->
     <KAction
-      id="organisations-entry"
-      icon="las la-sitemap"
-      label="LeftPane.ORGANISATIONS"
-      renderer="item"
-      :route= "{ name: 'organisations-activity' }"
-      @triggered="emit('triggered')"
-    />
-    <KAction
       id="users-entry"
       icon="las la-users"
       label="LeftPane.USERS"
       renderer="item"
       :route= "{ name: 'users-activity' }"
+      @triggered="emit('triggered')"
+    />
+    <KAction
+      id="groups-entry"
+      icon="groups"
+      label="LeftPane.GROUPS"
+      renderer="item"
+      :route= "{ name: 'groups-activity' }"
       @triggered="emit('triggered')"
     />
     <q-separator class="full-width" />

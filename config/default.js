@@ -3,24 +3,13 @@ const APP_SLUG='teams'
 const API_PREFIX = '/api'
 const LEFT_PANE = { content: [{ component: 'LeftPane' }] }
 
-/*const LEFT_PANE = {
-  content: [
-    { component: 'account/KProfile', class: 'full-width' },
-    { id: 'organisations', icon: 'las la-sitemap', label: 'OrganisationsActivity.LABEL', renderer: 'item', route: { name: 'organizations-activity' } },
-    { id: 'users', icon: 'las la-users', label: 'UsersActivity.LABEL', renderer: 'item', route: { name: 'users-activity' } },
-    { id: 'logout', icon: 'las la-sign-out-alt', label: 'LOGOUT', renderer: 'item', route: { name: 'logout', params: { provider: 'keycloak' } } },
-  ],
-  opener: true,
-  visible: false
-}*/
-
 module.exports = {
   appName: 'Kalisio Teams',
   appSlug: APP_SLUG,
   buildMode: process.env.BUILD_MODE === 'pwa' ? 'pwa' : 'spa',
   flavor: process.env.NODE_APP_INSTANCE || 'dev',
   version: require('../package.json').version,
-  buildNumber: process.env.BUILD_NUMBER,  
+  buildNumber: process.env.BUILD_NUMBER,
   apiPath: API_PREFIX,
   apiJwt: `${APP_SLUG}-jwt`,
   apiTimeout: 20000,
@@ -36,9 +25,9 @@ module.exports = {
   },
   terms: 'teams-terms',
   screens: {
-    actions: [{ 
-      id: 'terms-policies', 
-      label: 'screen.TERMS_AND_POLICIES', 
+    actions: [{
+      id: 'terms-policies',
+      label: 'screen.TERMS_AND_POLICIES',
       dialog: {
         component: 'document/KDocument',
         url: 'teams-terms.md'
@@ -61,14 +50,6 @@ module.exports = {
     panes: {
       left: { opener: true },
       top: { visible: true }
-    }
-  },
-  context: {
-    service: 'events'
-  },
-  organisationsActivity: {
-    panes: {
-      left: LEFT_PANE
     }
   },
   usersActivity: {

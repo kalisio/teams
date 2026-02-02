@@ -8,7 +8,8 @@
     "TERMS_AND_POLICIES": "Terms and Policies"
   },
   "LeftPane": {
-    "ORGANISATIONS": "Organisations",
-    "USERS": "Users"
+    "USERS": "Users",
+    "GROUPS": "Groups"
+
   }
 }

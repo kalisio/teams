@@ -9,11 +9,11 @@
       :list-strategy="'smart'">
       <template v-slot:empty>
         <div class="absolute-center">
-          <KStamp 
-            :text="$t('KGrid.EMPTY_LABEL')" 
+          <KStamp
+            :text="$t('KGrid.EMPTY_LABEL')"
             text-size="1rem"
-            icon="las la-exclamation-circle" 
-            icon-size="5rem" 
+            icon="las la-exclamation-circle"
+            icon-size="5rem"
             direction="vertical"
           />
         </div>
@@ -24,7 +24,7 @@
 
 <script setup>
 import _ from 'lodash'
-import { ref } from 'vue'
+import config from 'config'
 import { Store } from '@kalisio/kdk/core.client'
 
 // Data
@@ -34,5 +34,7 @@ const renderer = {
   component: 'collection/KCard',
   actions: _.get(config, 'usersActivity.items.actions', [])
 }
+
+console.log('FUCK')
 </script>
 

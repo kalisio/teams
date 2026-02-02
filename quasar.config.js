@@ -21,6 +21,9 @@ const clientConfig = require('config')
 // Write JSON config
 fs.writeFileSync(path.join('config', 'client-config.json'), JSON.stringify(clientConfig))
 
+// Set app slug
+const appSlug = clientConfig.appSlug
+
 // Set pwa name
 let pwaName = clientConfig.appName
 // If we build a specific staging instance
@@ -64,7 +67,7 @@ module.exports = configure(function (ctx) {
     // https://quasar.dev/quasar-cli-webpack/quasar-config-js#property-htmlvariables
     htmlVariables: {
       appName: clientConfig.appName,
-      appSlug: 'teams',
+      appSlug,
       appDescription: 'Kalisio Teams Application'
     },
 
@@ -253,27 +256,27 @@ module.exports = configure(function (ctx) {
         orientation: 'portrait',
         icons: [
           {
-            src: 'teams-icon-32x32.png',
+            src: `${appSlug}-icon-32x32.png`,
             sizes: '32x32',
             type: 'image/png'
           },
           {
-            src: 'teams-icon-64x64.png',
+            src: `${appSlug}-icon-64x64.png`,
             sizes: '64x64',
             type: 'image/png'
           },
           {
-            src: 'teams-icon-128x128.png',
+            src: `${appSlug}-icon-128x128.png`,
             sizes: '128x128',
             type: 'image/png'
           },
           {
-            src: 'teams-icon-256x256.png',
+            src: `${appSlug}-icon-256x256.png`,
             sizes: '256x256',
             type: 'image/png'
           },
           {
-            src: 'teams-icon-512x512.png',
+            src: `${appSlug}-icon-512x512.png`,
             sizes: '512x512',
             type: 'image/png'
           }

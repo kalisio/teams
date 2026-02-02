@@ -25,7 +25,7 @@ if (process.env.SUBDOMAIN) {
 }
 
 // Keycloak base url
-const keycloakBaseUrl = `${process.env.KEYCLOAK_URL}/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/`
+const keycloakBaseUrl = `${process.env.KEYCLOAK_URL}/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect`
 
 module.exports = {
   // Proxy your API if using any.
@@ -58,13 +58,11 @@ module.exports = {
     appId: process.env.APP_ID,
     path: API_PREFIX + '/authentication',
     service: API_PREFIX + '/users',
-    // entityId: 'user',
     entity: 'user',
     authStrategies: [
       'jwt',
       'local'
     ],
-    renewJwt: false,
     local: {
       usernameField: 'email',
       passwordField: 'password'
@@ -88,9 +86,10 @@ module.exports = {
         secret: process.env.KEYCLOAK_SECRET,
         oauth: 2,
         scope: ['openid'],
-        authorize_url: keycloakBaseUrl + 'auth',
-        access_url: keycloakBaseUrl + 'token',
-        profile_url: keycloakBaseUrl + 'userinfo',
+        authorize_url: `${keycloakBaseUrl}/auth`,
+        access_url: `${keycloakBaseUrl}/token`,
+        profile_url: `${keycloakBaseUrl}/userinfo`,
+        logout_url: `${keycloakBaseUrl}/logout`,
         nonce: true
       }
     },
@@ -145,8 +144,7 @@ module.exports = {
       region: process.env.S3_REGION,
       signatureVersion: 'v4'
     },
-    bucket: process.env.S3_BUCKET,
-    //prefix: 'events'
+    bucket: process.env.S3_BUCKET
   },
   'import-export': {
     s3Options: {

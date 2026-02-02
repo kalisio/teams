@@ -162,6 +162,7 @@ module.exports = {
       bucket: process.env.S3_BUCKET,
       prefix: 'tmp'
     },
+    allowedServicePaths: `users, groups`,
     workingDir: process.env.TMP_DIR || 'tmp'
   }
 }

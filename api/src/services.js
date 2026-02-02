@@ -30,14 +30,11 @@ export default async function () {
       res.json(response)
     })
     await app.configure(kdkCore)
-    // Create KDK base services
+    // Initialize KDK base services
     app.configureService('authentication', app.getService('authentication'), servicesPath)
     app.configureService('users', app.getService('users'), servicesPath)
-    // Synchronize user service with Keycloak
-    const usersService = app.getService('users')
-    // TODO
     // Create the keycloak-event-listener service
-    /*app.use(app.get('apiPath') + '/keycloak-events', new KeycloakListenerService({
+    app.use(app.get('apiPath') + '/keycloak-events', new KeycloakListenerService({
       usersServicePath: app.get('apiPath') + '/users'
     })),
     app.getService('keycloak-events').hooks({
@@ -50,19 +47,8 @@ export default async function () {
           keycloakListenerHooks.unsetSession
         ]
       }
-    })*/
+    })
   } catch (error) {
     app.logger.error(error.message)
   }
-
-
-  // Create app services
-
-/*  usersService.on('patched', user => {
-    // Patching profile should not trigger abilities update since
-    // it is a perspective and permissions are not available in this case
-    // Updating abilities in this case will result in loosing permissions for orgs/groups as none are available
-    if (_.has(user, 'organisations') || _.has(user, 'groups')) authorisationsService.updateAbilities(user)
-  })
-*/
 }

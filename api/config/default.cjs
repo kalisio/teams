@@ -118,6 +118,9 @@ module.exports = {
       }
     }
   },
+  tags: {
+    // Nothing specific here
+  },
   logs: {
     Console: {
       format: winston.format.combine(winston.format.colorize(), winston.format.simple()),

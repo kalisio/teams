@@ -18,9 +18,15 @@ export function defineUserAbilities (subject, can, cannot, app) {
         role = Roles[role]
         can('service', 'organisations')
         can('all', 'organisations')
+        can('service', '*/groups')
+        can('all', 'groups')
+        can('service', '*/tags')
+        can('all', 'tags')
         // Full access to superadmin
         if (role >= Roles.superadmin) {
           can('all', 'organisations')
+          can('all', 'groups')
+          can('all', 'tags')
         }
       })
     }

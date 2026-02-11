@@ -8,7 +8,7 @@ import { createServer } from '../src/server.js'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 describe('teams', () => {
-  let server, expressServer, userService
+  let server, expressServer, userService, tagsService, groupsService
 
   before(() => {
     chailint(chai, util)
@@ -28,6 +28,10 @@ describe('teams', () => {
   it('registers the services', () => {
     userService = server.app.getService('users')
     expect(userService).toExist()
+    tagsService = server.app.getService('tags')
+    expect(tagsService).toExist()
+    groupsService = server.app.getService('groups')
+    expect(groupsService).toExist()
   })
 
   // Cleanup

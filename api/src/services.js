@@ -3,7 +3,7 @@ import path from 'path'
 import fs from 'fs-extra'
 import { fileURLToPath } from 'url'
 import makeDebug from 'debug'
-import kdkCore, { createDatabasesService } from '@kalisio/kdk/core.api.js'
+import kdkCore, { createDatabasesService, createDefaultTags } from '@kalisio/kdk/core.api.js'
 import { Service as KeycloakListenerService, hooks as keycloakListenerHooks } from '@kalisio/feathers-keycloak-listener/lib/index.js'
 
 const debug = makeDebug('teams:services')
@@ -48,6 +48,15 @@ export default async function () {
         ]
       }
     })
+
+    // Create app services
+    await app.createService('groups', {
+      modelsPath,
+      servicesPath
+    })
+
+    // Initialize defaults
+    await createDefaultTags.call(app)
   } catch (error) {
     app.logger.error(error.message)
   }
